@@ -40,6 +40,7 @@ class Calculator:
 
 class CaloriesCalculator(Calculator):
     def get_calories_remained(self):  # Gets the remaining calories for today
+        # x is not a good name for a variable, it should explain what it is, ex: calories_remained
         x = self.limit - self.get_today_stats()
         if x > 0:
             return f'You can eat something else today,' \
@@ -54,6 +55,7 @@ class CashCalculator(Calculator):
 
     def get_today_cash_remained(self, currency,
                                 USD_RATE=USD_RATE, EURO_RATE=EURO_RATE):
+        # Not an error, but it would be cleaner an easier to read if you used a dictionary instead of if/elif/else
         currency_type = currency
         cash_remained = self.limit - self.get_today_stats()
         if currency == 'usd':
@@ -63,9 +65,13 @@ class CashCalculator(Calculator):
             cash_remained /= EURO_RATE
             currency_type = 'Euro'
         elif currency_type == 'rub':
-            cash_remained == 1.00
+            cash_remained == 1.00  # this is not an assignment, it's a comparison
             currency_type = 'rub'
         if cash_remained > 0:
+            # You are not returning the requested message
+            # the message should be:
+            # 'There are {cash_remained} {currency_type} left for today'
+            # this way the currency type will also be displayed
             return (
                 f'Left for today {round(cash_remained, 2)} '
                 f'{currency_type}'
@@ -75,7 +81,11 @@ class CashCalculator(Calculator):
         elif cash_remained < 0:
             return 'No money, keep it up:' \
                    ' your debt is - {0:.2f} {1}'.format(-cash_remained,
-                                                     currency_type)
+                                                        currency_type)
 
     def get_week_stats(self):
+        # since you are using the same method from the parent class you don't need to implement it here, but if you do, you should return the result from the parent method, otherwise you will be returning None
+
+        # return super().get_week_stats() -> like this
+        # then again, you don't need to implement it here
         super().get_week_stats()
